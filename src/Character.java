@@ -1,15 +1,20 @@
 import java.util.Objects;
 
-public class Monster extends Character{
-    private final String name;
-    private final int level;
+public abstract class Character {
+    private String name;
+    private int level;
     private int experience;
     private int gold;
     private int maxHealthPoints;
     private int healthPoints;
     private int damage;
 
-    public Monster(String name, int level, int experience, int gold, int maxHealthPoints, int healthPoints, int damage) {
+    public Character() {
+
+    }
+
+    public Character(String name, int level, int experience, int gold,
+                     int maxHealthPoints, int healthPoints, int damage) {
         this.name = name;
         this.level = level;
         this.experience = experience;
@@ -27,12 +32,24 @@ public class Monster extends Character{
         return level;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void levelUp() {
+        level++;
+    }
+
     public int getExperience() {
         return experience;
     }
 
     public void setExperience(int experience) {
         this.experience = experience;
+    }
+
+    public void addExperience(int experience) {
+        this.experience = this.experience + experience;
     }
 
     public int getGold() {
@@ -43,20 +60,28 @@ public class Monster extends Character{
         this.gold = gold;
     }
 
-    public int getMaxHealthPoints() {
-        return maxHealthPoints;
-    }
-
-    public void setMaxHealthPoints(int maxHealthPoints) {
-        this.maxHealthPoints = maxHealthPoints;
-    }
-
     public int getHealthPoints() {
         return healthPoints;
     }
 
     public void setHealthPoints(int healthPoints) {
         this.healthPoints = healthPoints;
+    }
+
+    public void takeHit(int damage) {
+        this.healthPoints = healthPoints - damage;
+    }
+
+    public int getMaxHealthPoints() {
+        return maxHealthPoints;
+    }
+
+    public void resetHealth() {
+        this.healthPoints = maxHealthPoints;
+    }
+
+    public void setMaxHealthPoints(int maxHealthPoints) {
+        this.maxHealthPoints = maxHealthPoints;
     }
 
     public int getDamage() {
@@ -70,8 +95,8 @@ public class Monster extends Character{
 
     @Override
     public String toString() {
-        return "Monster{" +
-                "name='" + name + '\'' +
+        return "Character{" +
+                "userName='" + name + '\'' +
                 ", level=" + level +
                 ", experience=" + experience +
                 ", gold=" + gold +
@@ -85,14 +110,14 @@ public class Monster extends Character{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Monster monster = (Monster) o;
-        return level == monster.level
-                && experience == monster.experience
-                && gold == monster.gold
-                && healthPoints == monster.healthPoints
-                && maxHealthPoints == monster.maxHealthPoints
-                && damage == monster.damage
-                && name.equals(monster.name);
+        Character character = (Character) o;
+        return level == character.level
+                && experience == character.experience
+                && gold == character.gold
+                && healthPoints == character.healthPoints
+                && maxHealthPoints == character.maxHealthPoints
+                && damage == character.damage
+                && Objects.equals(name, character.name);
     }
 
     @Override
